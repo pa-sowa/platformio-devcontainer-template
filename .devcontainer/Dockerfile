@@ -27,5 +27,10 @@ RUN service udev restart
 RUN usermod -a -G dialout $USER
 RUN usermod -a -G plugdev $USER
 
+# On Manjaro /dev/ttyUSB* devices belong to the uucp group
+# Also this group has a different gid (987) then in the base image (10)
+RUN groupadd -g 987 uucp_manjaro
+RUN usermod -a -G uucp_manjaro $USER
+
 # Change to new user after setup
 USER $USER
